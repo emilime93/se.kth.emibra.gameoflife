@@ -8,6 +8,10 @@ canvas.height = window.innerHeight - 6;
 var numCellsX = parseInt(canvas.width / cellSize);
 var numCellsY = parseInt(canvas.height / cellSize);
 
+// Set to deciman represeting a procent chance of the node being alive 0-1
+var initialProbability = 0.5;
+initialProbability = 1 - initialProbability;
+
 console.log(numCellsX);
 console.log(numCellsY);
 
@@ -39,7 +43,7 @@ function setup() {
     }
     for (let i = 0; i < dataGrid.length; i++) {
         for (let j = 0; j < dataGrid[1].length; j++) {
-            if (Math.random() > 0.7) {
+            if (Math.random() > initialProbability) {
                 dataGrid[i][j] = 1;
             } else {
                 dataGrid[i][j] = 0;
