@@ -1,3 +1,8 @@
+/**
+ * This is a little extra thing i created.
+ * Saved it because it's like one of those windows 95 screensavers!
+ */
+
 var canvas = document.querySelector('canvas');
 
 canvas.width = window.innerWidth;
