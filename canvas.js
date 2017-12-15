@@ -48,7 +48,6 @@ function setup() {
     }
 }
 
-var first = true;
 function numAliveNeighbours(x, y) {
     var numAlive = 0;
     for (let i = x-1; i < x+2; i++) {
@@ -58,24 +57,15 @@ function numAliveNeighbours(x, y) {
             if (i == x && j == y) {
                 continue;
             }
+            // If the index are out of bounds
             if (i > numCellsX-1 || i < 0 || j > numCellsY-1 ||j < 0) {
                 continue;
             }
-            if (first) {
-                console.log('i: ' + i + 'j: ' + j + ' | value: ' + previousGeneration[x][y]);
+            if (previousGeneration[i][j] == 1) {
+                numAlive++;
             }
-            try {
-                if (previousGeneration[i][j] == 1) {
-                    numAlive++;
-                }
-                // numAlive += previousGeneration[x][y];
-            } catch(err){console.log("ERROR");}
         }
     }
-    if (first) {
-        console.log('looking at node(x, y): ' + x + ', ' +  y + ' value: ' + previousGeneration[x][y] + ' numAlive = ' + numAlive);
-    }
-    first = false;
     return numAlive;
 }
 
