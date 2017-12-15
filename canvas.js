@@ -1,39 +1,76 @@
 var canvas = document.querySelector('canvas');
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-// C for Context
 var c = canvas.getContext('2d');
 
-var blobHeight = 150;
-var blobWidth = 100;
-var x = 0;      var y = 0;
-var xDir = 1;   var yDir = 1;
-var speed = 5;
+var cellSize = 12;
+canvas.width = window.innerWidth - 30;
+canvas.height = window.innerHeight - 30;
+
+var numCellsX = parseInt(canvas.width / cellSize);
+var numCellsY = parseInt(canvas.height / cellSize);
+
+console.log(numCellsX);
+console.log(numCellsY);
+
+var dataGrid = new Array(numCellsX);
+
+function setup() {
+    
+    // C for Context
+    c.strokeStyle = '#bebebe';
+    
+    var x = 0; var y = 0;
+    
+    // Paint the grid
+    for (var i = 0; i < numCellsX; i++) {
+        y = 0;
+        for (var j = 0; j < numCellsY; j ++) {
+            c.rect(x, y, cellSize, cellSize);
+            y += cellSize;
+        }
+        x += cellSize; 
+    }
+    // Actually paint it onto the canvas
+    c.stroke();
+
+
+    for (let i = 0; i < dataGrid.length; i++) {
+        dataGrid[i] = new Array(numCellsY);
+    }
+    for (let i = 0; i < dataGrid.length; i++) {
+        for (let j = 0; j < dataGrid[1].length; j++) {
+            if (Math.random() > 0.7) {
+                dataGrid[i][j] = 1;
+            } else {
+                dataGrid[i][j] = 0;
+            }
+        }
+    }
+}
 
 function update() {
-    x += speed * xDir;
-    y += speed * yDir;
-    
-    if (x + blobWidth > canvas.width || x < 0) {
-        xDir *= -1;
+    for (let i = 0; i < dataGrid.length; i++) {
+        for (let j = 0; j < dataGrid.length; j++) {
+        }
     }
-    if (y + blobHeight > canvas.height || y < 0) {
-        yDir *= -1;
-    }    
 }
 
-function draw() {
-    c.clearRect(0, 0, canvas.width, canvas.height);
-    c.fillRect(x, y, blobWidth, blobHeight);
+function paint() {
+    for (let i = 0; i < dataGrid.length; i++) {
+        for (let j = 0; j < dataGrid[i].length; j++) {
+            if (dataGrid[i][j] == 1) {
+            }
+        }
+    }
 }
-
 
 function game() {
-    update();
-    draw();
+    // update();
+    paint();
 }
 
-var FPS = 60;
+setup();
+
+let FPS = 30;
 setInterval(game, 1000/FPS);
+
+
