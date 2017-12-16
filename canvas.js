@@ -8,15 +8,15 @@
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
-var cellSize = 2;
-canvas.width = window.innerWidth - 6;
-canvas.height = window.innerHeight - 6;
+var cellSize = 12;
+canvas.width = window.innerWidth-4;
+canvas.height = window.innerHeight-4;
 
 var numCellsX = parseInt(canvas.width / cellSize);
 var numCellsY = parseInt(canvas.height / cellSize);
 
 // Set to deciman represeting a procent chance of the node being alive 0-1.
-var initialProbability = 0.6;
+var initialProbability = 0.5;
 initialProbability = 1 - initialProbability;
 
 console.log(numCellsX);
@@ -149,9 +149,10 @@ function game() {
 
 // Sets up the game before starting it
 setup();
+paint();
 
 // Choses the FPS and pace of the game, since they are bound to each other by
 // the game logic.
-let FPS = 50;
+let FPS = 10;
 //Starts the interval, so that the function is called at the specified rate.
 setInterval(game, 1000/FPS);
