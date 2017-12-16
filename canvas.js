@@ -72,8 +72,8 @@ function numAliveNeighbours(x, y) {
 /**
  * This function decides if the cell with the provided x and y values should
  * live or not.
- * @param {*} x value for cell.
- * @param {*} y value for cell.
+ * @param {number} x value for cell.
+ * @param {number} y value for cell.
  * @return {boolean} Returns true of the provided cell should live, false otherwise.
  */
 function shouldLive(x, y) {
