@@ -8,7 +8,7 @@
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
-var cellSize = 12;
+var cellSize = 40;
 canvas.width = window.innerWidth-4;
 canvas.height = window.innerHeight-4;
 
@@ -16,7 +16,7 @@ var numCellsX = parseInt(canvas.width / cellSize);
 var numCellsY = parseInt(canvas.height / cellSize);
 
 // Set to deciman represeting a procent chance of the node being alive 0-1.
-var initialProbability = 0.5;
+var initialProbability = 0.6;
 initialProbability = 1 - initialProbability;
 
 console.log(numCellsX);
