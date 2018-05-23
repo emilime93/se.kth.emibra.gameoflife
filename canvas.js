@@ -5,6 +5,17 @@
  * onto a canvas.
  */
 
+ // To track mouse up/down state
+var mousedown = false;
+document.querySelector('canvas').addEventListener("mousedown", function () {
+    console.log("mousedown");
+    mousedown = true;
+});
+document.querySelector('canvas').addEventListener("mouseup", function () {
+    console.log("mouseup");
+    mousedown = false;
+});
+
 var canvas = document.querySelector('canvas');
 var c = canvas.getContext('2d');
 
@@ -19,23 +30,20 @@ var numCellsY = parseInt(canvas.height / cellSize);
 var initialProbability = 0.6;
 initialProbability = 1 - initialProbability;
 
-console.log(numCellsX);
-console.log(numCellsY);
-
-var dataGrid = new Array(numCellsX);
+var pixelGrid = new Array(numCellsX);
 var previousGeneration;
 
 /**
- * This creates the data-grid and randomly fills it with live cells.
+ * This creates the pixle-grid and randomly fills it with live cells.
  */
 function setup() {
-    for (let i = 0; i < dataGrid.length; i++) {
-        dataGrid[i] = new Array(numCellsY);
+    for (let i = 0; i < pixelGrid.length; i++) {
+        pixelGrid[i] = new Array(numCellsY);
     }
-    for (let i = 0; i < dataGrid.length; i++) {
-        for (let j = 0; j < dataGrid[1].length; j++) {
+    for (let i = 0; i < pixelGrid.length; i++) {
+        for (let j = 0; j < pixelGrid[1].length; j++) {
             if (Math.random() > initialProbability) {
-                dataGrid[i][j] = 1;
+                pixelGrid[i][j] = 1;
             }
         }
     }
@@ -98,10 +106,10 @@ function shouldLive(x, y) {
  */
 function copyArray(oldArr) {
     var newArr = new Array(numCellsX);
-    for (let i = 0; i < dataGrid.length; i++) {
+    for (let i = 0; i < pixelGrid.length; i++) {
         newArr[i] = new Array(numCellsY);
-        for (let j = 0; j < dataGrid[i].length; j++) {
-            newArr[i][j] = dataGrid[i][j];
+        for (let j = 0; j < pixelGrid[i].length; j++) {
+            newArr[i][j] = pixelGrid[i][j];
         }
     }
     return newArr;
@@ -111,14 +119,14 @@ function copyArray(oldArr) {
  * Updates the state for every cell depending in its neighbours. 
  */
 function update() {
-    previousGeneration = copyArray(dataGrid);
+    previousGeneration = copyArray(pixelGrid);
     for (let i = 0; i < numCellsX; i++) {
         for (let j = 0; j < numCellsY; j++) {
             // If the cell should live in the next generation
             if(shouldLive(i, j)) {
-                dataGrid[i][j] = 1;
+                pixelGrid[i][j] = 1;
             } else {
-                dataGrid[i][j] = 0;
+                pixelGrid[i][j] = 0;
             }
         }
     }
@@ -129,9 +137,9 @@ function update() {
  */
 function paint() {
     c.clearRect(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < dataGrid.length; i++) {
-        for (let j = 0; j < dataGrid[i].length; j++) {
-            if (dataGrid[i][j] == 1) {
+    for (let i = 0; i < pixelGrid.length; i++) {
+        for (let j = 0; j < pixelGrid[i].length; j++) {
+            if (pixelGrid[i][j] == 1) {
                 c.fillRect(i*cellSize, j*cellSize, cellSize, cellSize);
             }
         }
@@ -156,3 +164,18 @@ paint();
 let FPS = 10;
 //Starts the interval, so that the function is called at the specified rate.
 setInterval(game, 1000/FPS);
+
+function resurrectPixel() {
+    console.log("Mousedown: " + mousedown);
+    if (!mousedown) {
+        return;
+    }
+    let x = parseInt(event.clientX/cellSize);
+    let y = parseInt(event.clientY/cellSize);
+    previousGeneration[x][y] = 1;
+    pixelGrid[x][y] = 1;
+    paint();
+}
+
+canvas.addEventListener("mousemove", resurrectPixel);
+canvas.addEventListener("mousedown", resurrectPixel);
